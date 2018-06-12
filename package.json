@@ -5,13 +5,18 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "migrate": "ACCOUNT_PASSWORD=java@123 truffle migrate --network rinkeby --reset"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "buefy": "^0.6.6",
+    "truffle-contract": "^3.0.5",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.5.4",
+    "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
