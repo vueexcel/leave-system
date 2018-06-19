@@ -1,31 +1,46 @@
-import {HRSystem} from '../../service/hr'
+/* eslint-disable */
+import { HRSystem } from '../../service/hr'
 let hr = new HRSystem();
 export default {
     state: {
         username: "",
         password: "",
-        user: {},
+        user: {
+            token: "xxxx"  ///by default user is logged in, we check with api if login token is valid or not
+        },
         error: false,
         login_progress: false,
+        profile: {}
 
     },
     getters: {
         getUser: state => state.user,
-        isLoggedIn: state => state.user.username ? true : false
+        isLoggedIn: state => state.user.token ? true : false,
+        profile: state => state.profile
     },
     actions: {
-        async login({ commit }, payload) {
+        async getProfile({ commit }) {
+            try {
+                const response = await hr.getMyProfile();
+                commit("setProfile", response);
+            } catch (err) {
+                // commit("api_fail", err)
+                commit("login", {})
+            }
+        },
+        async login({ commit, dispatch }, payload) {
             try {
                 commit("login_progress", true);
-                const response = await hr.login();
+                const response = await hr.login(payload.username, payload.password);
                 delete payload.password;
                 commit("login", response);
                 commit("updateUsername", "");
                 commit("updatePassword", "");
                 commit("login_progress", false);
+                dispatch("getProfile");
             } catch (err) {
                 commit("login_progress", false);
-                commit("login_fail", err)
+                commit("api_fail", err)
             }
         },
         logout({ commit }) {
@@ -33,10 +48,14 @@ export default {
         }
     },
     mutations: {
+        setProfile: (state, data) => {
+            state.profile = data;
+        },
         login: (state, data) => {
             state.user = data;
         },
-        login_fail: (state, data) => {
+        api_fail: (state, data) => {
+            state.user = {};
             state.error = data;
         },
         login_progress: (state, data) => {

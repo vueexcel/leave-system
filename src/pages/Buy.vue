@@ -1,23 +1,25 @@
 <template>
     <div id="home">
         <Header v-bind="{account , balance}"/>
-        <First v-bind="{account, error_msg, balance}" />
+        <Buy v-bind="{account, error_msg , balance}" />
     </div>
 </template>
 
 <script>
 import Header from "./../components/Header";
-import First from "./../components/First";
+import Buy from "./../components/Buy";
 import { mapActions } from "vuex";
 export default {
-  name: "Home",
+  name: "BuyPage",
   components: {
     Header,
-    First
+    Buy
   },
-  updated: function() {
-    this.initWeb3();
-  },
+  beforeCreate: function() {
+    if (!this.$store.state.eth.account) {
+      this.$router.push("first");
+    }
+  },    
   mounted: function() {
     this.initWeb3();
   },

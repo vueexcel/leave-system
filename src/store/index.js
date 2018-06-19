@@ -3,7 +3,9 @@ import Vuex from 'vuex'
 import login from './modules/login'
 import eth from './modules/eth'
 import token from './modules/token'
-// import createPersistedState from "vuex-persistedstate";
+import leaves from './modules/leaves'
+import tx from './modules/tx'
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
@@ -13,8 +15,14 @@ export default new Vuex.Store({
   modules: {
     login,
     eth,
-    token
+    token,
+    leaves,
+    tx
   },
   strict: debug,
-  // plugins: [createPersistedState()]
+  plugins: [createPersistedState({
+    reducer: state => ({
+      tx: state.tx
+    })
+  })]
 })

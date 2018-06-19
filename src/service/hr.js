@@ -15,8 +15,9 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-const API_URL = 'http://dev.hr.excellencetechnologies.in/hr/attendance/API_HR/api.php';
-const SAL_INFO = 'http://dev.hr.excellencetechnologies.in/hr/attendance/sal_info/api.php';
+const API_URL = 'https://hr.excellencetechnologies.in/attendance/API_HR/api.php';
+const SAL_INFO = 'https://hr.excellencetechnologies.in/attendance/sal_info/api.php';
+
 export class HRSystem {
     userId = 0;
     token = false;
@@ -58,6 +59,7 @@ export class HRSystem {
             "token": this.token
         }).then((obj) => {
             this.profile = obj.user_profile_detail;
+            this.profile.userProfileImage = obj.user_profile_detail.userProfileImage;
             return obj.user_profile_detail;
         })
     }
@@ -92,7 +94,7 @@ export class HRSystem {
                 "day_status": "",
                 "leave_type": type,
                 "late_reason": "",
-                "token": this.token
+                "token": this.getFromStorage("token")
             })
     }
 }

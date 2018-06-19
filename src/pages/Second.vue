@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header v-bind="{account,balance}" />
-        <SecondHero v-bind="{account,balance,tokenBalance}" />
+        <SecondHero v-bind="{account, error_msg,balance,tokenBalance}" />
     </div>
 </template>
 
@@ -23,11 +23,11 @@ export default {
       }
   },
   mounted: function() {
-    this.initContract();
+    this.initTokenContract();
   },
   methods: {
     ...mapActions({
-      initContract: "initContract"
+      initTokenContract: "initTokenContract"
     })
   },
   computed: {
@@ -39,6 +39,9 @@ export default {
     },
     balance: function() {
       return this.$store.state.eth.balance;
+    },
+    error_msg: function() {
+      return this.$store.state.eth.error;
     }
   }
 };

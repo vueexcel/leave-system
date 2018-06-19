@@ -9,9 +9,7 @@
                     Identify yourself!!
                 </h2>
                 
-                     <b-notification :active.sync="error_msg.length > 0" type="is-danger">
-                        {{error_msg}}                
-                    </b-notification>
+                    <ErrorMetamask :error_msg="error_msg" />
                     <div class="columns">
                         <div class="column"></div>
                         <div class="column">
@@ -41,10 +39,25 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from "vuex";
+import ErrorMetamask from "../generic/ErrorMetamask";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "Auth",
+  components: { ErrorMetamask },
+  mounted: function() {
+    if (this.isLoggedIn) {
+      this.$router.push("/second");
+    }
+  },
+  watch: {
+    isLoggedIn: function(val) {
+      if (val) {
+        this.$router.push("/second");
+      }
+    }
+  },
   computed: {
+    ...mapGetters(["isLoggedIn"]),
     username: {
       get: function() {
         return this.$store.state.login.username;
@@ -66,7 +79,7 @@ export default {
     },
     error_msg: function() {
       return this.$store.state.login.error;
-    },
+    }
   },
   methods: {
     ...mapMutations(["updateUsername", "updatePassword"]),

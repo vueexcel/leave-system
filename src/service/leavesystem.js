@@ -5,13 +5,13 @@ import LeaveSystemContract from '../../build/contracts/LeaveSystemTokenized.json
 
 export const LEAVE_CONTRACT_ADDRESS = '0x2ec395e0db6549ab204b7a67fe68bc966e80b9b5'
 const LeaveSystem = contract(LeaveSystemContract)
-export class LeaveContarct {
+export class LeaveContract {
   contract = false;
   account = false
   web3Provider = false;
   web3 = false;
   constructor(web3Provider, account) {
-    this.web3 = new Web3(web3Provider)
+    this.web3 = new Web3(web3Provider);
     this.web3Provider = web3Provider;
     this.account = account;
     LeaveSystem.setProvider(web3Provider.currentProvider)
@@ -62,7 +62,7 @@ export class LeaveContarct {
 
   }
   applyLeave = (leave_id, no_of_days) => {
-    console.log("========= apply leave ======")
+    console.log("========= apply leave ======",leave_id, no_of_days)
     return this.contract.applyLeave(leave_id, no_of_days, { from: this.account })
   }
   approveLeave = (index) => {

@@ -1,12 +1,7 @@
 import { Web3Util } from '../../service/getWeb3'
 
-//getWeb3
-//getDefaultAccount
-//getAccountBalance
-//initWeb3
 export default {
     state: {
-        web3: false,
         new_account : false,
         account : false,
         balance: false,
@@ -19,7 +14,7 @@ export default {
         async checkWeb3( {commit , state} ) {
             try{
                 const {account} = await new Web3Util().initWeb3();
-                if(state.account != account){
+                if(state.account != account && state.account){
                     commit("setNewAccount", account);
                 }
                 
@@ -27,14 +22,16 @@ export default {
                 commit("setError", err)
             }
         },
-        async initWeb3 ({commit}) {
-            try{
-                const {account, balance} = await new Web3Util().initWeb3();
-                
-                commit("setAccount", account);
-                commit("setBalance", balance);
-            }catch(err){
-                commit("setError", err)
+        async initWeb3 ({commit, state}) {
+            if(!state.account){
+                try{
+                    const {account, balance} = await new Web3Util().initWeb3();
+                    
+                    commit("setAccount", account);
+                    commit("setBalance", balance);
+                }catch(err){
+                    commit("setError", err)
+                }
             }
         }
     },

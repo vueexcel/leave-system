@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Web3 from 'web3'
 import contract from 'truffle-contract'
 import ERC20ContractJSON from '../../build/contracts/ETECHToken.json'
@@ -19,20 +21,26 @@ export class ERC20 {
       this.contract = contract;
     })
   }
+  isContract() {
+    return this.contract;
+  }
   getTokenBalance = () => {
-    return this.contract.balanceOf({ from: this.account })
+    return this.contract.balanceOf(this.account, { from: this.account })
+    .then((obj) => {
+      return this.web3Provider.toDecimal(obj);
+    })
 
   }
   transferToken = (to, amount) => {
     return this.contract.transfer(this.web3.toHex(to), amount * 1, { from: this.account })
   }
   approve = (to, amount) => {
-    return this.contract.approve(this.web3.toHex(to), amount * 1, { from: this.account })
+    return this.contract.approve(web3.toHex(to), amount * 1, { from: this.account })
   }
   allowance = (owner) => {
-    return this.contract.allowance(this.web3.toHex(this.account), this.web3.toHex(owner), { from: this.account })
+    return this.contract.allowance(web3.toHex(this.account), web3.toHex(owner), { from: this.account })
       .then((obj) => {
-        return this.web3.toDecimal(obj);
+        return web3.toDecimal(obj);
       })
   }
 }

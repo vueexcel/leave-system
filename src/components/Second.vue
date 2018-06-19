@@ -8,39 +8,96 @@
                 <h2 class="subtitle">
                     To apply leave on blockchain you need ETECH Tokens!
                 </h2>
-                <p v-if="tokenBalance !== 0">
+                <div v-if="!tokenBalance && tokenBalance !== 0">
+                    Getting Your Token Balance
+                    <Br/>
+                    <a class="is-loading is-success button"></a>
+                </div>
+                <div v-if="tokenBalance && tokenBalance !== 0">
                         
-                        You'r token balnce {{tokenBalance}}
-                </p>
-                <p v-if="tokenBalance === 0">
+                        You'r token balance is {{tokenBalance}}
+
+                        <div v-if="isLoggedIn">
+                            Welcome {{profile.name}}
+                            <br/>
+                            <figure>
+                                <img :src="profile.userProfileImage" />
+                            </figure>
+                            <i>Continue to apply leave</i>
+                            <br/>
+                            <a class="button" @click="applyleave">Apply Leave</a>
+                        </div>
+                        <div v-if="!isLoggedIn">
+                            Authenticate your account with our hr system so you can apply some leaves
+                            <br/><br/>
+                            <a @click="authenticate" class="button">Authenticate</a>
+
+                            <br/>
+                            ..... or ....
+                            <br/>
+
+                            Just try applying leave as a guest!
+                            <br/>
+                            <a class="button" @click="guest">Guest</a>
+
+                        </div>
+                </div>
+
+                <ErrorMetamask :error_msg="error_msg" />
+                <div v-if="tokenBalance === 0">
                         Oops!! You don't have any tokens?
                         <br/>
-                        Authenticate your account with our hr system and maybe we will reward you with some free tokens :)
-                        <br/><br/>
-                        <a @click="authenticate" class="button">Authenticate</a>
+
+                        <div v-if="isLoggedIn">
+                            Welcome {{profile.name}}
+                            <br/>
+                            <figure>
+                                <img :src="profile.userProfileImage" />
+                            </figure>
+                            <i>Seems you have exhausted all your tokens :)</i>
+                        </div>
+                        <div v-if="!isLoggedIn">
+                            Authenticate your account with our hr system and maybe we will reward you with some free tokens :)
+                            <br/><br/>
+                            <a @click="authenticate" class="button">Authenticate</a>
+                        </div>
 
                         <br/>
                         ..... or ....
                         <br/>
 
-                        Or you just want to try out the system?
-                        <br/><br/>
+                        Or you buy some tokens and try out the system?
+                        <br/>
+                        <i>Since its on testnet, all tokens are free!</i>
+                        <br/>
                         <a class="button" @click="tryout">Try out!</a>
                         
-                </p>
+                </div>
             </div>
         </div>
     </section>
 </template>
 
 <script>
+import ErrorMetamask from "../generic/ErrorMetamask";
+import { mapGetters } from "vuex";
 export default {
   name: "Second",
-  props: ["tokenBalance"],
+  components: { ErrorMetamask },
+  props: ["tokenBalance", "error_msg"],
+  computed: {
+    ...mapGetters(["profile", "isLoggedIn"])
+  },
   methods: {
-    tryout: function() {},
-    authenticate: function(){
-        this.$router.push("/auth");
+    guest: function() {},
+    tryout: function() {
+      this.$router.push("/buy");
+    },
+    authenticate: function() {
+      this.$router.push("/auth");
+    },
+    applyleave: function(){
+        this.$router.push("/leave");
     }
   }
 };

@@ -1,25 +1,18 @@
 <template>
-    <div id="home">
+    <div id="leave">
         <Header v-bind="{account , balance}"/>
-        <First v-bind="{account, error_msg, balance}" />
+        <ApplyLeave v-bind="{account, error_msg, balance}" />
     </div>
 </template>
 
 <script>
 import Header from "./../components/Header";
-import First from "./../components/First";
-import { mapActions } from "vuex";
+import ApplyLeave from "./../components/ApplyLeave";
 export default {
-  name: "Home",
+  name: "Leave",
   components: {
     Header,
-    First
-  },
-  updated: function() {
-    this.initWeb3();
-  },
-  mounted: function() {
-    this.initWeb3();
+    ApplyLeave
   },
   computed: {
     account: function() {
@@ -31,9 +24,6 @@ export default {
     balance: function() {
       return this.$store.state.eth.balance;
     }
-  },
-  methods: {
-    ...mapActions(["initWeb3"])
   }
 };
 </script>

@@ -7,7 +7,7 @@
             </div>
             <div class="navbar-menu">
                 <div class="navbar-end">
-                    <div class="navbar-item" v-if="account">
+                    <div @click="openTx" class="navbar-item" v-if="account">
                       # {{account}}
                     </div>
                 </div>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   name: "Header",
   props: ["account", "balance"],
@@ -38,10 +38,24 @@ export default {
     setInterval(() => {
       this.checkWeb3();
     }, 5000);
+    this.getProfile();
+    this.initWeb3();
   },
   watch: {
+    account: function(val){
+      if(val){
+        this.initLeaveContract();
+        this.initTokenContract();
+      }
+    },
     new_account: function() {
       this.isImageModalActive = true;
+    },
+    isLoggedIn: function(val) {
+      if (!val) {
+        this.$snackbar.open(`You need to login again, token expired!`);
+        this.$router.push("/second");
+      }
     }
   },
   computed: {
@@ -56,7 +70,10 @@ export default {
     ...mapActions({
       dologout: "logout",
       checkWeb3: "checkWeb3",
-      initWeb3: "initWeb3"
+      initWeb3: "initWeb3",
+      getProfile: "getProfile",
+      initLeaveContract: "initLeaveContract",
+      initTokenContract: "initTokenContract"
     }),
     login: function() {
       this.$router.push("login");
@@ -66,9 +83,12 @@ export default {
       this.$router.push("/");
     },
     reload: function() {
-      this.initWeb3();
       this.isImageModalActive = false;
-    }
+      window.location.reload(); //neet to see better way for this
+    },
+    ...mapMutations({
+      openTx: "openUI"
+    })
   }
 };
 </script>
