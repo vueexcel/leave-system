@@ -1,7 +1,6 @@
 <template>
-    <section class="hero is-warning is-medium">
-        <div class="hero-body">
-            <div class="container has-text-centered">
+    
+            <div>
                 <h1 class="title">
                     Authenticate
                 </h1>
@@ -10,6 +9,9 @@
                 </h2>
                 
                     <ErrorMetamask :error_msg="error_msg" />
+                    <b-notification :active="login_error_msg.length > 0" type="is-danger">
+                      {{login_error_msg}}
+                    </b-notification>
                     <div class="columns">
                         <div class="column"></div>
                         <div class="column">
@@ -34,8 +36,7 @@
                     
                 
             </div>
-        </div>
-    </section>
+       
 </template>
 
 <script>
@@ -44,6 +45,7 @@ import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "Auth",
   components: { ErrorMetamask },
+  props: ["account", "error_msg", "balance"],
   mounted: function() {
     if (this.isLoggedIn) {
       this.$router.push("/second");
@@ -77,7 +79,7 @@ export default {
     login_progress: function() {
       return this.$store.state.login.login_progress;
     },
-    error_msg: function() {
+    login_error_msg: function() {
       return this.$store.state.login.error;
     }
   },

@@ -1,7 +1,6 @@
 <template>
-    <section class="hero is-light is-medium">
-        <div class="hero-body">
-            <div class="container has-text-centered">
+    
+            <div>
                 <h1 class="title">
                     Leaves
                 </h1>
@@ -55,7 +54,7 @@
                                     <br/>
                                         <a @click="nextStep">Walk me through the steps</a>
                                     <br/>
-                                    .. or .. 
+                                    <div class="is-divider" data-content="OR"></div>
                                     <br/>
                                         <a @click="finish">Just apply the leave</a>
                                         <br/>
@@ -115,8 +114,6 @@
                 
                 
             </div>
-        </div>
-    </section>
 </template>
 
 <script>

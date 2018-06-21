@@ -6,6 +6,7 @@ import 'buefy/lib/buefy.css'
 import store from "./store"
 import router from './routes'
 
+
 Vue.use(Buefy)
 Vue.use(require('vue-moment'));
 

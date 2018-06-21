@@ -1,31 +1,55 @@
 <template>
   <div id="app">
-      <div class="columns">
-          <div class="column is-three-quarters">
-            <router-view></router-view>
-          </div>
-          <div class="column">
-              <Tx />
-          </div>
-      </div>
+    <section :class="['hero','is-fullheight','is-bold',bodyClass]">
+        <div class="hero-head">
+            <Header v-bind="{account , balance}"/>
+        </div>
+        <div class="hero-body">
+          <div :class="{columns: hasTx && open_ui}">
+              <div :class="{column: hasTx && open_ui, 'is-three-quarters': hasTx && open_ui}">
+                <div :class="{'container': !hasTx || !open_ui, 'has-text-centered': true}">
+                  <router-view></router-view>
+                </div>
+              </div>
+              <div class="column" v-if="hasTx && open_ui">
+                  <Tx />
+              </div>
+          </div> 
+        </div>
+  </section>
   </div>
 </template>
 
 <script>
-import Home from "./pages/Home.vue";
-import Tx from './components/Tx.vue';
+import Tx from "./components/Tx.vue";
+import Header from "./components/Header.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "app",
   components: {
-    Home,
+    Header,
     Tx
   },
-  computed: {
-    ...mapGetters(["isLoggedIn"])
+  data: function() {
+    return {
+      bodyClass: "is-info"
+    };
   },
-  mounted: function() {
+  computed: {
+    ...mapGetters([
+      "isLoggedIn",
+      "account",
+      "balance",
+      "countTx",
+      "hasTx",
+      "open_ui"
+    ])
+  },
+  updated: function() {
+    if (this.$route.meta && this.bodyClass !== this.$route.meta) {
+      this.bodyClass = this.$route.meta;
+    }
   }
 };
 </script>

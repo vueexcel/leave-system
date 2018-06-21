@@ -1,7 +1,6 @@
 <template>
-    <section class="hero is-success is-medium">
-        <div class="hero-body">
-            <div class="container has-text-centered">
+    
+            <div>
                 <h1 class="title">
                     Token
                 </h1>
@@ -21,7 +20,7 @@
                             Welcome {{profile.name}}
                             <br/>
                             <figure>
-                                <img :src="profile.userProfileImage" />
+                                <img :src="profile.profileImage" />
                             </figure>
                             <i>Continue to apply leave</i>
                             <br/>
@@ -33,7 +32,8 @@
                             <a @click="authenticate" class="button">Authenticate</a>
 
                             <br/>
-                            ..... or ....
+                            <div class="is-divider" data-content="OR"></div>
+
                             <br/>
 
                             Just try applying leave as a guest!
@@ -52,7 +52,7 @@
                             Welcome {{profile.name}}
                             <br/>
                             <figure>
-                                <img :src="profile.userProfileImage" />
+                                <img :src="profile.profileImage" />
                             </figure>
                             <i>Seems you have exhausted all your tokens :)</i>
                         </div>
@@ -63,7 +63,8 @@
                         </div>
 
                         <br/>
-                        ..... or ....
+                        <div class="is-divider" data-content="OR"></div>
+
                         <br/>
 
                         Or you buy some tokens and try out the system?
@@ -74,8 +75,7 @@
                         
                 </div>
             </div>
-        </div>
-    </section>
+        
 </template>
 
 <script>

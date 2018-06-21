@@ -21,7 +21,7 @@ export default {
     actions: {
         async getProfile({ commit }) {
             try {
-                const response = await hr.getMyProfile();
+                const response =  hr.getMyProfile();
                 commit("setProfile", response);
             } catch (err) {
                 // commit("api_fail", err)

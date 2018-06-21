@@ -1,5 +1,7 @@
 <template>
-    <section class="section">
+    <section>
+        <p class="title">Transactions</p>
+        <p class="subtitle">View your transactions on blockchain</p>
         <div v-for="tx in txs" :key="tx.id" :class="{notification: true, 'is-primary': tx.complete, 'is-danger': tx.error, 'is-info':tx.pending}">
             
             
@@ -30,9 +32,12 @@
 
                         <br/>
 
-                        <div v-if='tx.complete'>
+                        <div v-if='tx.complete && tx.data.tx'>
                             Check transation on ethereum network at 
                             <a target="_blank" v-bind:href='"https://rinkeby.etherscan.io/tx/" + tx.data.tx'>{{tx.data.tx}}</a>
+                        </div>
+                        <div v-if='tx.complete && !tx.data.tx'>
+                            {{tx.data}}
                         </div>
                         <br/>
                         <div v-if='tx.error'>
@@ -46,15 +51,29 @@
                 </div>
             
         </div>
+
+        <a v-if="showNextTx" @click="nextPage">Next</a>
+        <a v-if="showBackTx" @click="previousPage">Back</a>
     </section>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Tx",
   computed: {
-    ...mapGetters({ txs: "tx", open_ui: "open_ui" })
+    ...mapGetters({
+      txs: "tx",
+      open_ui: "open_ui",
+      currentPage: "currentPage",
+      pageSize: "pageSize",
+      countTx: "countTx",
+      showBackTx: "showBackTx",
+      showNextTx: "showNextTx"
+    })
+  },
+  methods: {
+    ...mapMutations(["nextPage", "previousPage"])
   }
 };
 </script>

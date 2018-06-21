@@ -1,36 +1,21 @@
 <template>
-    <div id="home">
-        <Header v-bind="{account , balance}"/>
-        <First v-bind="{account, error_msg, balance}" />
-    </div>
+    <First v-bind="{account, error_msg, balance}" />   
 </template>
 
 <script>
-import Header from "./../components/Header";
 import First from "./../components/First";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Home",
   components: {
-    Header,
     First
   },
   updated: function() {
     this.initWeb3();
   },
-  mounted: function() {
-    this.initWeb3();
-  },
+  mounted: function() {},
   computed: {
-    account: function() {
-      return this.$store.state.eth.account;
-    },
-    error_msg: function() {
-      return this.$store.state.eth.error;
-    },
-    balance: function() {
-      return this.$store.state.eth.balance;
-    }
+    ...mapGetters(["account", "error_msg", "balance"])
   },
   methods: {
     ...mapActions(["initWeb3"])

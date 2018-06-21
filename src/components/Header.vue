@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <div class="navbar-item">
                     <router-link to="/">VUE</router-link>
@@ -7,8 +7,9 @@
             </div>
             <div class="navbar-menu">
                 <div class="navbar-end">
-                    <div @click="openTx" class="navbar-item" v-if="account">
-                      # {{account}}
+                    <div  class="navbar-item" v-if="account">
+                      <button v-if="countTx > 0" @click="openTx" class="button badge" :data-badge="countTx"> # {{account}} </button>
+                      <div v-if="countTx == 0"> # {{account}} </div>
                     </div>
                 </div>
             </div>
@@ -42,8 +43,8 @@ export default {
     this.initWeb3();
   },
   watch: {
-    account: function(val){
-      if(val){
+    account: function(val) {
+      if (val) {
         this.initLeaveContract();
         this.initTokenContract();
       }
@@ -59,9 +60,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      isLoggedIn: "isLoggedIn"
-    }),
+    ...mapGetters(["isLoggedIn", "countTx"]),
     new_account: function() {
       return this.$store.state.eth.new_account;
     }

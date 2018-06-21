@@ -59,7 +59,6 @@ export class HRSystem {
             "token": this.token
         }).then((obj) => {
             this.profile = obj.user_profile_detail;
-            this.profile.userProfileImage = obj.user_profile_detail.userProfileImage;
             return obj.user_profile_detail;
         })
     }

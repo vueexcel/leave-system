@@ -1,7 +1,31 @@
 export default {
     state: {
         tx: [],
-        open_ui: false
+        open_ui: false,
+        currentPage: 0,
+        pageSize: 2
+    },
+    getters: {
+        pageSize: state => state.pageSize,
+        currentPage: state => state.currentPage,
+        tx: state => [...state.tx].sort((obj1, obj2) => {
+            if (new Date(obj1.time) < new Date(obj2.time)) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }).filter((obj, index) => {
+            if (index >= (state.currentPage * state.pageSize) && index < (state.currentPage + 1 * state.pageSize)) {
+                return true;
+            } else {
+                return false;
+            }
+        }),
+        open_ui: state => state.open_ui,
+        countTx: state => state.tx.length,
+        hasTx: state => state.tx.length > 0 ? true : false,
+        showNextTx: state => state.tx.length > state.pageSize * (state.currentPage + 1),
+        showBackTx: state => state.currentPage > 0
     },
     actions: {
         addTransaction({ commit }, payload) {
@@ -18,17 +42,13 @@ export default {
             })
         }
     },
-    getters: {
-        tx: state => [...state.tx].sort((obj1, obj2) => {
-            if (new Date(obj1.time) < new Date(obj2.time)) {
-                return 1;
-            } else {
-                return -1;
-            }
-        }),
-        open_ui: state => state.open_ui
-    },
     mutations: {
+        nextPage(state) {
+            state.currentPage++;
+        },
+        previousPage(state) {
+            state.currentPage--;
+        },
         transactionPending(state, payload) {
             payload.state = "pending";
             payload.pending = true;
@@ -58,8 +78,8 @@ export default {
             })
             state.tx = txs;
         },
-        openUI(state, payload) {
-            state.open_ui = payload;
+        openUI(state) {
+            state.open_ui = !state.open_ui;
         }
     }
 }

@@ -12,15 +12,14 @@ import Leave from './pages/Leave.vue'
 
 Vue.use(VueRouter)
 const routes = [
-    { 'path': '/', component: Home },
-    { 'path': '/first', component: First },
-    { 'path': '/second', component: Second },
-    { 'path': '/auth', component: Login },
-    { 'path': '/buy', component: Buy },
-    { 'path': '/leave', component: Leave}
-  ]
-  
-export default  new VueRouter({
+    { 'path': '/', component: Home, "meta": "is-primary" },
+    { 'path': '/first', component: First, "meta": "is-info" },
+    { 'path': '/second', component: Second, "meta": "is-success" },
+    { 'path': '/auth', component: Login, "meta": "is-warning" },
+    { 'path': '/buy', component: Buy, "meta": "is-primary" },
+    { 'path': '/leave', component: Leave, "meta": "is-light" }
+]
+
+export default new VueRouter({
     routes // short for `routes: routes`
 })
-  

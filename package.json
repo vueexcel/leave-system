@@ -11,7 +11,12 @@
   "dependencies": {
     "axios": "^0.18.0",
     "buefy": "^0.6.6",
+    "bulma-badge": "^2.0.0",
     "bulma-divider": "^2.0.1",
+    "css-loader": "^0.28.11",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
     "truffle-contract": "^3.0.5",
     "vue": "^2.5.16",
     "vue-moment": "^4.0.0-0",

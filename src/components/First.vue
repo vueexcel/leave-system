@@ -1,7 +1,5 @@
 <template>
-    <section class="hero is-info is-medium">
-        <div class="hero-body">
-            <div class="container has-text-centered">
+            <div>
                 <h1 class="title">
                     Ethereum
                 </h1>
@@ -20,9 +18,7 @@
                 <ErrorMetamask :error_msg="error_msg" />
                 <a @click="$router.push('/second')" class="button">Next</a>
             </div>
-        </div>
-    </section>
-</template>
+        </template>
 
 <script>
 import ErrorMetamask from "../generic/ErrorMetamask"

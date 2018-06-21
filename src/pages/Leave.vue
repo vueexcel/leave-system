@@ -1,29 +1,17 @@
 <template>
-    <div id="leave">
-        <Header v-bind="{account , balance}"/>
-        <ApplyLeave v-bind="{account, error_msg, balance}" />
-    </div>
+    <ApplyLeave v-bind="{account, error_msg, balance}" />
 </template>
 
 <script>
-import Header from "./../components/Header";
 import ApplyLeave from "./../components/ApplyLeave";
+import { mapGetters } from "vuex";
 export default {
   name: "Leave",
   components: {
-    Header,
     ApplyLeave
   },
   computed: {
-    account: function() {
-      return this.$store.state.eth.account;
-    },
-    error_msg: function() {
-      return this.$store.state.eth.error;
-    },
-    balance: function() {
-      return this.$store.state.eth.balance;
-    }
+    ...mapGetters(["error_msg", "account", "balance"])
   }
 };
 </script>
