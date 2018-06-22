@@ -6,12 +6,13 @@ export default {
         account: false,
         balance: false,
         error: "",
-        isRinkeby: false
+        isRinkeby: true
     },
     getters: {
         account: state => state.account,
         balance: state => state.balance,
-        error_msg: state => state.error
+        error_msg: state => state.error,
+        isRinkeby: state => state.isRinkeby
     },
     actions: {
         async checkWeb3({ commit, state }) {

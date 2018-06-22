@@ -64,14 +64,14 @@
 
                         <br/>
                         <div class="is-divider" data-content="OR"></div>
-
                         <br/>
 
-                        Or you buy some tokens and try out the system?
+                        You buy some tokens with the ETH you have and try out the system?
                         <br/>
                         <i>Since its on testnet, all tokens are free!</i>
                         <br/>
                         <a class="button" @click="tryout">Try out!</a>
+
                         
                 </div>
             </div>
@@ -98,6 +98,9 @@ export default {
     },
     applyleave: function(){
         this.$router.push("/leave");
+    },
+    givme: function(){
+
     }
   }
 };

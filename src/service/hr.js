@@ -26,7 +26,7 @@ export class HRSystem {
         this.token = this.getFromStorage("token")
         // console.log("token found in local storage", this.token)
         if (this.token) {
-            this.getMyProfile().catch(() => { })
+            this.getMyProfile();
         }
     }
     logout = () => {

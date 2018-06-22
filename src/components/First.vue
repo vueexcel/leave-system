@@ -22,6 +22,8 @@
                    You need to be connected to <strong>Rinkeby Network</strong> in metamask to be able to use this app.
                    <br/>
                    All our contracts are deployed on rinkeby network.
+                   <br/>
+                   <a href="https://github.com/vueexcel/leave-system/wiki/Setting-Up" target="_blank">Read the guide</a> to setup your ethereum account properly.
                 </div>
             </div>
         </template>

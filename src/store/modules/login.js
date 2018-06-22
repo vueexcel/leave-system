@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { HRSystem } from '../../service/hr'
 let hr = new HRSystem();
 export default {
@@ -21,9 +20,12 @@ export default {
     actions: {
         async getProfile({ commit }) {
             try {
-                const response =  hr.getMyProfile();
+                const response = await hr.getMyProfile();
                 commit("setProfile", response);
             } catch (err) {
+                // eslint-disable-next-line
+                console.log(err);
+                commit("setProfile", {});
                 // commit("api_fail", err)
                 commit("login", {})
             }
