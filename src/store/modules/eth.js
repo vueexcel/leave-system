@@ -5,7 +5,8 @@ export default {
         new_account: false,
         account: false,
         balance: false,
-        error: ""
+        error: "",
+        isRinkeby: false
     },
     getters: {
         account: state => state.account,
@@ -27,8 +28,8 @@ export default {
         async initWeb3({ commit, state }) {
             if (!state.account) {
                 try {
-                    const { account, balance } = await new Web3Util().initWeb3();
-
+                    const { account, balance, isRinkeby } = await new Web3Util().initWeb3();
+                    commit("setIsRinkeby", isRinkeby);
                     commit("setAccount", account);
                     commit("setBalance", balance);
                 } catch (err) {
@@ -38,6 +39,9 @@ export default {
         }
     },
     mutations: {
+        setIsRinkeby(state, payload){
+            state.isRinkeby = payload;
+        },
         setNewAccount(state, account) {
             state.new_account = account;
         },

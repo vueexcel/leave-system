@@ -16,15 +16,25 @@
                     
                 </p>
                 <ErrorMetamask :error_msg="error_msg" />
-                <a @click="$router.push('/second')" class="button">Next</a>
+                <a v-if="isRinkeby" @click="$router.push('/second')" class="button">Next</a>
+
+                <div v-if="!isRinkeby" class="notification is-warning">
+                   You need to be connected to <strong>Rinkeby Network</strong> in metamask to be able to use this app.
+                   <br/>
+                   All our contracts are deployed on rinkeby network.
+                </div>
             </div>
         </template>
 
 <script>
-import ErrorMetamask from "../generic/ErrorMetamask"
+import ErrorMetamask from "../generic/ErrorMetamask";
+import { mapGetters } from "vuex";
 export default {
   name: "First",
-  components: {ErrorMetamask},
-  props: ["account", "balance", "error_msg"]   
+  components: { ErrorMetamask },
+  props: ["account", "balance", "error_msg"],
+  computed: {
+    ...mapGetters(["isRinkeby"])
+  }
 };
 </script>

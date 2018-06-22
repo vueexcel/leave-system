@@ -24,7 +24,17 @@ export class Web3Util {
             // })
         })
     }
+    isRinkeby = (web3) => {
+        return web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+                case "4":
+                    return true;
 
+                default:
+                    return false;
+            }
+        })
+    }
     getDefaultAccount = (web3Provider) => {
         return new Promise((resolve, reject) => {
             // Get accounts.
@@ -44,7 +54,7 @@ export class Web3Util {
     getAccountBalance = (web3Provider, account) => {
         return new Promise((resolve, reject) => {
             web3Provider.eth.getBalance(account, function (error, wei) {
-                if (!error) {                    
+                if (!error) {
                     var balance = web3Provider.fromWei(wei, 'ether');
                     resolve(balance + "");
                 } else {
@@ -62,7 +72,9 @@ export class Web3Util {
                         .then((account) => {
                             return this.getAccountBalance(web3, account)
                                 .then((balance) => {
-                                    resolve({ web3, account, balance })
+                                    return this.isRinkeby(web).then((isRinkeby) => {
+                                        resolve({ web3, account, balance, isRinkeby })
+                                    })
                                 })
                         })
                 }).catch((err) => {
