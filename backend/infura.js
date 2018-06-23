@@ -103,7 +103,10 @@ engine.start();
 const app = express()
 
 app.get('/free/:addr', (req, res) => {
-    console.log(req.params);
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    if(ip !== "5.9.144.226"){
+        res.json("required blocked, invalid origin" + ip);
+    }
     if(req.params.addr){
         const TOKEN_SALE_CONTRACT = path.resolve(__dirname, '..', 'build', 'contracts', 'AirDrop.json');
 

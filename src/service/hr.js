@@ -2,6 +2,10 @@ import axios from "axios"
 
 axios.interceptors.response.use(function (response) {
     // Do something with response data
+    if(response.error){
+        //this is for our blockchain nodejs app
+        return response;
+    }
     if (response.data && response.data.error && response.data.error == 1) {
         return Promise.reject(response.data.data.message);
     }

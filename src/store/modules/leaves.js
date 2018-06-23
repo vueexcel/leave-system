@@ -27,12 +27,15 @@ export default {
             message: ""
         },
         free: {
-            response: false
+            response: false,
+            fetching: false
         }
     },
     getters: {
         getField,
-        exchangeRate: state => state.rate
+        exchangeRate: state => state.rate,
+        freefetch: state => state.free.fetching,
+        freeresponse: state => state.free.response
     },
     actions: {
         async initLeaveContract({ dispatch, rootState }) {
@@ -122,12 +125,17 @@ export default {
             commit("setLeaveApplying", false);
         },
         async getFreeTokens({commit, rootState}){
+            commit("setFreeTokenFetch",true);
             let response = await free.getTokenForFree(rootState.eth.account);
             commit("setFreeTokenResponse", response);
+            commit("setFreeTokenFetch",false);
         }
     },
     mutations: {
         updateField,
+        setFreeTokenFetch(state, payload){
+            state.free.fetching = payload;
+        },
         setFreeTokenResponse(state,  payload){
             state.free.response = payload;
         },

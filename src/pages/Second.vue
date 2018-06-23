@@ -31,7 +31,7 @@ export default {
       tokenBalance: "getTokenBalance",
       account: "account",
       balance: "balance",
-      error_msg: "error_msg",
+      error_msg: "error_msg"
     })
   }
 };
