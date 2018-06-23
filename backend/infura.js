@@ -154,4 +154,4 @@ app.get('/free/:addr', (req, res) => {
     }
 })
 
-app.listen(port, () => console.log('        listening on port 3000!'))
+app.listen(port, () => console.log('        listening on port!' + port))
