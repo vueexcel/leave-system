@@ -30,7 +30,7 @@ export default {
         async tokenBalance({commit}){
             try{
                 let balance = await tokenContract.getTokenBalance();
-                commit("setTokenBalance", balance)
+                commit("setTokenBalance", balance/(10**18))
             }catch(err){
                 //
             }

@@ -2,8 +2,10 @@ import { Web3Util } from '../../service/getWeb3'
 import { LeaveContract, LEAVE_CONTRACT_ADDRESS } from '../../service/leavesystem'
 import { HRSystem } from '../../service/hr'
 import { getField, updateField } from 'vuex-map-fields';
+import { Free } from '../../service/free'
 
 let hr = new HRSystem();
+let free = new Free();
 
 //this should be a state variable, but when i try to set contract in this it gives error.
 let leaveContract = false;
@@ -23,6 +25,9 @@ export default {
             applying: false,
             error: false,
             message: ""
+        },
+        free: {
+            response: false
         }
     },
     getters: {
@@ -115,10 +120,17 @@ export default {
                 commit("setLeaveError", err.message);
             }
             commit("setLeaveApplying", false);
+        },
+        async getFreeTokens({commit, rootState}){
+            let response = await free.getTokenForFree(rootState.eth.account);
+            commit("setFreeTokenResponse", response);
         }
     },
     mutations: {
         updateField,
+        setFreeTokenResponse(state,  payload){
+            state.free.response = payload;
+        },
         setLeaveApplyMessage(state, msg) {
             state.leave.message = msg;
         },

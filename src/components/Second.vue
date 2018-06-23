@@ -74,13 +74,14 @@
 
                         
                 </div>
+                <a class="button" @click="getFreeTokens">Free!</a>
             </div>
         
 </template>
 
 <script>
 import ErrorMetamask from "../generic/ErrorMetamask";
-import { mapGetters } from "vuex";
+import { mapGetters , mapActions } from "vuex";
 export default {
   name: "Second",
   components: { ErrorMetamask },
@@ -99,9 +100,7 @@ export default {
     applyleave: function(){
         this.$router.push("/leave");
     },
-    givme: function(){
-
-    }
+    ...mapActions(["getFreeTokens"])
   }
 };
 </script>

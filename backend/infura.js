@@ -102,7 +102,7 @@ engine.start();
 
 const app = express()
 
-app.get('/:addr', (req, res) => {
+app.get('/free/:addr', (req, res) => {
     console.log(req.params);
     if(req.params.addr){
         const TOKEN_SALE_CONTRACT = path.resolve(__dirname, '..', 'build', 'contracts', 'AirDrop.json');
