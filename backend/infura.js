@@ -93,9 +93,9 @@ engine.on('error', function (err) {
 })
 
 engine.on('block', function (block) {
-    console.log('================================')
-    console.log('BLOCK CHANGED:', '#' + block.number.toString('hex'), '0x' + block.hash.toString('hex'))
-    console.log('================================')
+    // console.log('================================')
+    // console.log('BLOCK CHANGED:', '#' + block.number.toString('hex'), '0x' + block.hash.toString('hex'))
+    // console.log('================================')
 })
 
 // start polling for blocks
