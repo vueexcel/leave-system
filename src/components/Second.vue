@@ -106,11 +106,11 @@ export default {
   components: { ErrorMetamask },
   props: ["tokenBalance", "error_msg"],
   watch: {
-      freeresponse: function(val){
-          if(val && !val.error){
-              this.tokenBalance();
-          }
+    freeresponse: function(val) {
+      if (val && !val.error) {
+        this.getTokenBalance();
       }
+    }
   },
   computed: {
     ...mapGetters(["profile", "isLoggedIn", "freefetch", "freeresponse"])
@@ -126,7 +126,10 @@ export default {
     applyleave: function() {
       this.$router.push("/leave");
     },
-    ...mapActions(["getFreeTokens","tokenBalance"])
+    ...mapActions({
+      getFreeTokens: "getFreeTokens",
+      getTokenBalance: "tokenBalance"
+    })
   }
 };
 </script>

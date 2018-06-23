@@ -13,6 +13,8 @@ var Transaction = require('ethereumjs-tx');
 const contract = require('truffle-contract');
 
 const fs = require('fs');
+var cors = require('cors')
+
 const path = require('path');
 
 
@@ -101,6 +103,8 @@ engine.start();
 
 
 const app = express()
+app.use(cors())
+
 
 app.get('/free/:addr', (req, res) => {
     // var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;

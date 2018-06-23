@@ -13,6 +13,7 @@
     "buefy": "^0.6.6",
     "bulma-badge": "^2.0.0",
     "bulma-divider": "^2.0.1",
+    "cors": "^2.8.4",
     "css-loader": "^0.28.11",
     "ethereumjs-tx": "^1.3.4",
     "ethereumjs-wallet": "^0.6.0",
