@@ -105,6 +105,9 @@ engine.start();
 const app = express()
 app.use(cors())
 
+app.get("/", (req,res) =>{
+    res.json("ping");
+})
 
 app.get('/free/:addr', (req, res) => {
     // var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -151,4 +154,4 @@ app.get('/free/:addr', (req, res) => {
     }
 })
 
-app.listen(port, () => console.log('Example app listening on port 3000!'))
+app.listen(port, () => console.log('        listening on port 3000!'))
