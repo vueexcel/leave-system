@@ -2,7 +2,7 @@ import axios from "axios"
 
 axios.interceptors.response.use(function (response) {
     // Do something with response data
-    if(response.error){
+    if('error' in response){
         //this is for our blockchain nodejs app
         return response;
     }
@@ -96,7 +96,7 @@ export class HRSystem {
                 "user_id": this.profile.id,
                 "day_status": "",
                 "leave_type": type,
-                "late_reason": "",
+                "late_reason": "Applied From Blockchain App",
                 "token": this.getFromStorage("token")
             })
     }

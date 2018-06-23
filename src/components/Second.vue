@@ -79,19 +79,22 @@
                     Give me 1 ETECH toke for free
                     <br/>
                 </div>
-                <a :class="{button: true, 'is-loading': freefetch}" @click="getFreeTokens">Get Free!</a>                
-                <div v-if="freeresponse.data">
-                    <div v-if="!freeresponse.error" class="notification is-success">
-                        Transaction Successful, check details here 
-                        <a target="_blank" :href="freeresponse.data.tx">{{freeresponse.data.tx}}</a>
-
-                        <br/>
-
-                        You should have got 1 ETECH token in your account now
-                    </div>
-                    <div v-if="freeresponse.error" class="notification is-danger">
-                        Transaction Failed, check details here 
-                        <a target="_blank" :href="freeresponse.data.tx">{{freeresponse.data.tx}}</a>
+                <a v-if="!freeresponse.tx" :class="{button: true, 'is-loading': freefetch}" @click="getFreeTokens">Get Free!</a>                
+                <div v-if="freefetch">
+                    While you are waiting...
+                    <br/>
+                    This is a nodejs app running on our server, which using the contract owners private key will automatically send you 1 ETECH token!!
+                    <br/>
+                    Cool! Right..
+                </div>
+                <div v-if="freeresponse.tx">
+                    <div class="notification is-warning">
+                        <p>
+                        Transaction check details here 
+                        <a target="_blank" v-bind:href='"https://rinkeby.etherscan.io/tx/" + freeresponse.tx'>{{freeresponse.tx}}</a>
+                        </p>
+                        <p>You should have got 1 ETECH token in your account now.</p>
+                        <p>Check your token balance above..</p>
                     </div>
                 </div>
             </div>

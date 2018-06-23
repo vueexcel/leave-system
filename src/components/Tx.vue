@@ -2,6 +2,14 @@
     <section>
         <p class="title">Transactions</p>
         <p class="subtitle">View your transactions on blockchain</p>
+
+        <p>
+            <a href="https://rinkeby.etherscan.io/token/0x8bc0978b628c93c86ae79e53017b30363fe81840" target="_blank">Token Details on blockchain</a>
+        </p>
+        <p>
+            <a href="https://rinkeby.etherscan.io/address/0x2ec395e0db6549ab204b7a67fe68bc966e80b9b5" target="_blank">Leave Smart Contract on blockchain</a>
+        </p>
+
         <div v-for="tx in txs" :key="tx.id" :class="{notification: true, 'is-primary': tx.complete, 'is-danger': tx.error, 'is-info':tx.pending}">
             
             

@@ -27,7 +27,7 @@ export class ERC20 {
   getTokenBalance = () => {
     return this.contract.balanceOf(this.account, { from: this.account })
     .then((obj) => {
-      return this.web3Provider.toDecimal(obj);
+      return this.web3Provider.toDecimal(obj) / (10 ** 18);
     })
 
   }

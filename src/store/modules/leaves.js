@@ -76,9 +76,10 @@ export default {
                 commit("setLeaveApplying", true);
                 commit("setLeaveApplyMessage", "applying your leave...")
                 const response = await hr.applyLeave(payload.fromdate, payload.todate, payload.no_of_days, payload.type, payload.reason);
-                // let allowed = await window.tokenContract.allowance(LEAVE_CONTRACT_ADDRESS);
-                // console.log(allowed);
-                // if (allowed < payload.no_of_days * 10 ** 18) {
+                let balance = await window.tokenContract.getTokenBalance();
+                if(balance < payload.no_of_days){
+                    throw new Error("You don't have enough token balance. Token balance:" + balance + " Leave days:" + payload.no_of_days)
+                }
                 const tx1 = window.tokenContract.approve(LEAVE_CONTRACT_ADDRESS, payload.no_of_days * 10 ** 18)
                 dispatch("addTransaction", {
                     tx: tx1,
@@ -104,7 +105,7 @@ export default {
                             message: "Saving leave details on blockchain"
                         });
                         await tx2;
-                        commit("setLeaveApplyMessage", "Leave applied!!!")
+                        commit("setLeaveApplyMessage", "Leave applied!!! You should get a notification on slack as well")
                     } else {
                         if (retry > 60) {
                             clearInterval(checkInterval);
@@ -120,6 +121,8 @@ export default {
                 // } 
 
             } catch (err) {
+                 // eslint-disable-next-line
+                console.log(err);
                 commit("setLeaveError", err.message);
             }
             commit("setLeaveApplying", false);

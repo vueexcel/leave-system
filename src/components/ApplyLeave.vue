@@ -7,9 +7,9 @@
                 <h2 class="subtitle">
                     Apply Leave Now
                 </h2>
-                <div class="columns">
-                    <div class="column"></div>
-                    <div class="column">
+                <div :class="{columns: !open_ui}">
+                    <div  v-if="!open_ui" class="column"></div>
+                    <div :class="{column:!open_ui}">
 
                             <div class="box">
                                 <ErrorMetamask :error_msg="error_msg" />
@@ -108,7 +108,7 @@
 
                             <a @click="$router.go(-1)">Back</a>
                     </div>
-                    <div class="column"></div>
+                    <div v-if="!open_ui" class="column"></div>
                 </div>
                 
                 
@@ -119,7 +119,7 @@
 <script>
 import { mapFields } from "vuex-map-fields";
 import ErrorMetamask from "../generic/ErrorMetamask";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "ApplyLeave",
   components: { ErrorMetamask },
@@ -141,6 +141,7 @@ export default {
     },
     leaveerror: function(val) {
       if (val) {
+        this.steps = 0;
         this.$snackbar.open(val);
       }
     }
@@ -188,7 +189,8 @@ export default {
       leavepplying: "leave.applying",
       leaveerror: "leave.error",
       leaveapplymessage: "leave.message"
-    })
+    }),
+    ...mapGetters(["open_ui"])
   }
 };
 </script>
