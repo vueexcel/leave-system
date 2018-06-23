@@ -22,7 +22,8 @@ export default new Vuex.Store({
   strict: debug,
   plugins: [createPersistedState({
     reducer: state => ({
-      tx: state.tx
+      tx: state.tx,
+      login : state.login
     })
   })]
 })

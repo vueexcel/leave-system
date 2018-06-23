@@ -4,9 +4,7 @@ export default {
     state: {
         username: "",
         password: "",
-        user: {
-            token: "xxxx"  ///by default user is logged in, we check with api if login token is valid or not
-        },
+        user: {},
         error: false,
         login_progress: false,
         profile: {}
