@@ -75,7 +75,6 @@ export default {
                 commit("setLeaveError", "");
                 commit("setLeaveApplying", true);
                 commit("setLeaveApplyMessage", "applying your leave...")
-                const response = await hr.applyLeave(payload.fromdate, payload.todate, payload.no_of_days, payload.type, payload.reason);
                 let balance = await window.tokenContract.getTokenBalance();
                 if(balance < payload.no_of_days){
                     throw new Error("You don't have enough token balance. Token balance:" + balance + " Leave days:" + payload.no_of_days)
@@ -99,6 +98,7 @@ export default {
                     let allowed = await tx3;
                     if (allowed >= payload.no_of_days * 10 ** 18) {
                         clearInterval(checkInterval);
+                        const response = await hr.applyLeave(payload.fromdate, payload.todate, payload.no_of_days, payload.type, payload.reason);
                         const tx2 = leaveContract.applyLeave(response.leave_id, payload.no_of_days);
                         dispatch("addTransaction", {
                             tx: tx2,
