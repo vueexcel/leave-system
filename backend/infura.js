@@ -16,14 +16,12 @@ const fs = require('fs');
 var cors = require('cors')
 
 const path = require('path');
-
-
-const http = require('http')
 const port = 9001
 
 const RPC_SERVER = 'https://rinkeby.infura.io/Q6V3RsibY4PktQV508nP5';
 const privateKey = 'E89a625b52b1643cd91d74ccf213232d6cbb39908274b70ec957ff3b0a0cb6ed';
 const AIRDROP_CONTRACT_ADDRESS = "0xa20aa1034adff2a9b0b122101e714a7c59c7ef30";
+const LEAVE_SYSTEM_ADDRESS = "0xdc4927f743937aa2471864e67b7e2cea8e047479";
 
 //EthereumJS Wallet Sub-Provider
 
@@ -105,47 +103,75 @@ engine.start();
 const app = express()
 app.use(cors())
 
+const TOKEN_SALE_CONTRACT = path.resolve(__dirname, '..', 'build', 'contracts', 'AirDrop.json');
+
+const LEAVE_SYSTEM_CONTRACT = path.resolve(__dirname, '..', 'build', 'contracts', 'LeaveSystemTokenized.json');
+
+async function start(){
+    try{
+        
+
+
+        let data2 = fs.readFileSync(LEAVE_SYSTEM_CONTRACT, 'utf-8');
+        const LeaveSystem = contract(JSON.parse(data2));
+        LeaveSystem.setProvider(engine)
+        let leavesystemContract = await LeaveSystem.at(LEAVE_SYSTEM_ADDRESS);
+        // const allEvents = airdropContract.allEvents({
+        //     fromBlock: 0,
+        //     toBlock: 'latest'
+        //   });
+        leavesystemContract.UserJoined().watch((err, res) => {
+            console.log(err, res);
+          });
+
+        leavesystemContract.LeaveApplied().watch((err, res) => {
+            //automaticlly approve leave??
+            // or randomly approve/disapprove leave on blockchain
+        })
+
+          let data = fs.readFileSync(TOKEN_SALE_CONTRACT, 'utf-8');
+        const Airdrop = contract(JSON.parse(data));
+        Airdrop.setProvider(engine)
+        return airdropContract = await Airdrop.at(AIRDROP_CONTRACT_ADDRESS);
+        
+    }catch(err){
+        console.log(err);
+    }
+}
+start();
+
 app.get("/", (req,res) =>{
     res.json("ping");
 })
 
-app.get('/free/:addr', (req, res) => {
+
+let airdropContract = start();
+app.get('/free/:addr', async (req, res) => {
     // var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     // if(ip !== "5.9.144.226"){
     //     res.json("required blocked, invalid origin" + ip);
     // }
     if(req.params.addr){
-        const TOKEN_SALE_CONTRACT = path.resolve(__dirname, '..', 'build', 'contracts', 'AirDrop.json');
+        
+        try{
+            await airdropContract.tokensAvailable();
+            let obj = await airdropContract.sendTokensSingleValue(
+                [req.params.addr], 
+                1 * 10 ** 18,
+                { from: myWallet.getAddressString() }
+            );
+            res.json({
+                error: false,
+                data: obj
+            })
 
-            fs.readFile(TOKEN_SALE_CONTRACT, 'utf-8', function (err, data) {
-                if (err) {
-                    res.json(err);
-                } else {
-                    const Airdrop = contract(JSON.parse(data));
-                    Airdrop.setProvider(engine)
-                    Airdrop.at(AIRDROP_CONTRACT_ADDRESS).then((airdropContract) => {
-                        airdropContract.tokensAvailable()
-                            .then(() => {
-                                return airdropContract.sendTokensSingleValue(
-                                    [req.params.addr], 
-                                    1 * 10 ** 18,
-                                    { from: myWallet.getAddressString() }
-                                ).then((obj) => {
-                                    res.json({
-                                        error: false,
-                                        data: obj
-                                    });
-                                })
-
-                            }).catch((err) => { 
-                                res.json({
-                                    error: true,
-                                    data: err
-                                });
-                             })
-                    });
-                }
+        }catch(err){
+            res.json({
+                error: true,
+                data: err
             });
+        }
+                    
     }else{
         res.json({
             error: true,
@@ -154,4 +180,4 @@ app.get('/free/:addr', (req, res) => {
     }
 })
 
-app.listen(port, () => console.log('        listening on port!' + port))
+app.listen(port, () => console.log('blockchain app listening on port!' + port))
