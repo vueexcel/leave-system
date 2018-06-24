@@ -8,6 +8,7 @@ contract LeaveSystemTokenized {
     //data type of employee
 	struct Employee {
 	    uint id; // id of employee from database
+	    bool flag; //just to check always true
 	}
 	
 	struct Leave {
@@ -52,9 +53,9 @@ contract LeaveSystemTokenized {
 	//function to add user to contract
 	function joinUser(uint userId) public {
 	    require(userId > 0);  //actual database user id from hr system
-	    if(employees[msg.sender].id != 0) revert(); //revert if user already exists
+	    if(employees[msg.sender].flag) revert(); //revert if user already exists
 	    
-	    Employee memory user = Employee(userId);
+	    Employee memory user = Employee(userId, true);
 	    employees[msg.sender] = user;
 	    
 	    emit UserJoined(msg.sender);
@@ -64,7 +65,7 @@ contract LeaveSystemTokenized {
         
         require(userId > 0);  //actual database user id from hr system
 	    
-	    Employee memory user = Employee(userId);
+	    Employee memory user = Employee(userId, true);
 	    employees[addr] = user;
 	    
 	    emit UserJoined(addr);
@@ -96,6 +97,8 @@ contract LeaveSystemTokenized {
 
 	     require(allowance >= no_days * 10 ** 18);
 	     
+	     token.transferFrom(msg.sender, this, allowance);
+	     
 	    
 	     Leave memory leave = Leave(leave_id,no_days, false, msg.sender,0,address(0));
 	     leaves.push(leave);
@@ -106,8 +109,6 @@ contract LeaveSystemTokenized {
 	    
 	    
 	    Leave memory leave = leaves[leave_index];
-	    
-	    token.transferFrom(leave.by, this, leave.no_days);
 	    
 	    leave.approved = true;
 	    leave.action_by = msg.sender;
@@ -143,7 +144,7 @@ contract LeaveSystemTokenized {
 	    return indexs;
 	}
 	
-	function getEmployeeApprovedLeaveList() public isOwner constant returns (uint[]){
+	function getEmployeeApprovedLeaveList() public constant returns (uint[]){
 	    //maximum restriction of 80 leaves
 	    uint[] memory indexs = new uint[](80);
 	    uint j = 0;
@@ -156,7 +157,7 @@ contract LeaveSystemTokenized {
 	    return indexs;
 	}
 	
-	function getEmployeePendingLeaveList() public isOwner constant returns (uint[]){
+	function getEmployeePendingLeaveList() public constant returns (uint[]){
 	    //maximum restriction of 80 leaves
 	    uint[] memory indexs = new uint[](80);
 	    uint j = 0;

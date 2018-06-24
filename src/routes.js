@@ -8,6 +8,7 @@ import Second from './pages/Second.vue'
 import Login from './pages/Login.vue'
 import Buy from './pages/Buy.vue'
 import Leave from './pages/Leave.vue'
+import LeaveList from './pages/LeaveList'
 
 
 Vue.use(VueRouter)
@@ -17,7 +18,8 @@ const routes = [
     { 'path': '/second', component: Second, "meta": "is-success" },
     { 'path': '/auth', component: Login, "meta": "is-warning" },
     { 'path': '/buy', component: Buy, "meta": "is-primary" },
-    { 'path': '/leave', component: Leave, "meta": "is-light" }
+    { 'path': '/leave', component: Leave, "meta": "is-light" },
+    { 'path': '/leavelist', component: LeaveList, "meta": "is-dark" }
 ]
 
 export default new VueRouter({

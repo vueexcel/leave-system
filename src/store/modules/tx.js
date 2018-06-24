@@ -32,14 +32,18 @@ export default {
             let tx_id = new Date().getTime();
             payload.id = tx_id;
             payload.time = new Date();
-            commit("transactionPending", payload);
-            payload.tx.then((obj) => {
-                payload.data = obj;
+            if(payload.tx instanceof Promise){
+                commit("transactionPending", payload);
+                payload.tx.then((obj) => {
+                    payload.data = obj;
+                    commit("transactionComplete", payload);
+                }).catch((err) => {
+                    payload.err = err;
+                    commit("transactionError", payload);
+                })
+            }else{
                 commit("transactionComplete", payload);
-            }).catch((err) => {
-                payload.err = err;
-                commit("transactionError", payload);
-            })
+            }
         }
     },
     mutations: {

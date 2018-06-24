@@ -39,7 +39,7 @@
 
                                 Just try applying leave as a guest!
                                 <br/>
-                                <a class="button" @click="guest">Guest</a>
+                                <a :class="{button: true, 'is-loading': login_progress}" @click="guest">Guest</a>
 
                             </div>
                     </div>
@@ -116,10 +116,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["profile", "isLoggedIn", "freefetch", "freeresponse"])
+    ...mapGetters(["profile", "isLoggedIn", "freefetch", "freeresponse","login_progress"])
   },
   methods: {
-    guest: function() {},
+    guest: function() {
+        this.guestLogin();
+    },
     tryout: function() {
       this.$router.push("/buy");
     },
@@ -131,7 +133,8 @@ export default {
     },
     ...mapActions({
       getFreeTokens: "getFreeTokens",
-      getTokenBalance: "tokenBalance"
+      getTokenBalance: "tokenBalance",
+      guestLogin: "guestLogin"
     })
   }
 };

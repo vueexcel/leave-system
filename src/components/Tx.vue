@@ -1,7 +1,7 @@
 <template>
     <section>
-        <p class="title">Transactions</p>
-        <p class="subtitle">View your transactions on blockchain</p>
+        <p class="title has-text-dark">Transactions</p>
+        <p class="subtitle has-text-dark">View your transactions on blockchain</p>
 
         <p>
             <a href="https://rinkeby.etherscan.io/token/0x8bc0978b628c93c86ae79e53017b30363fe81840" target="_blank">Token Details on blockchain</a>

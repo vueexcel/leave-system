@@ -7,13 +7,16 @@ export default {
         user: {},
         error: false,
         login_progress: false,
-        profile: {}
+        profile: {},
+        guestprogress: false
 
     },
     getters: {
         getUser: state => state.user,
         isLoggedIn: state => state.user.token ? true : false,
-        profile: state => state.profile
+        profile: state => state.profile,
+        guestprogress: state => state.guestprogress,
+        login_progress: state => state.login_progress
     },
     actions: {
         async getProfile({ commit }) {
@@ -37,17 +40,29 @@ export default {
                 commit("updateUsername", "");
                 commit("updatePassword", "");
                 commit("login_progress", false);
-                dispatch("getProfile");
+                await dispatch("getProfile");
+                await dispatch("joinUser", response.userid)
             } catch (err) {
                 commit("login_progress", false);
                 commit("api_fail", err)
             }
+        },
+        async guestLogin({dispatch, commit}){
+             commit("setguestprogress", false)
+             await dispatch("login", {
+                 username: "global_guest",
+                 password: "global_guest123"
+             })
+             commit("setguestprogress", true)
         },
         logout({ commit }) {
             commit("logout")
         }
     },
     mutations: {
+        setguestprogress: (state, data) => {
+            state.guestprogress = data;
+        },
         setProfile: (state, data) => {
             state.profile = data;
         },

@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import contract from 'truffle-contract'
 import LeaveSystemContract from '../../build/contracts/LeaveSystemTokenized.json'
 
-export const LEAVE_CONTRACT_ADDRESS = '0x2ec395e0db6549ab204b7a67fe68bc966e80b9b5'
+export const LEAVE_CONTRACT_ADDRESS = '0xdc4927f743937aa2471864e67b7e2cea8e047479'
 const LeaveSystem = contract(LeaveSystemContract)
 export class LeaveContract {
   contract = false;

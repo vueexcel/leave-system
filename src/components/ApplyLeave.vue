@@ -7,11 +7,14 @@
                 <h2 class="subtitle">
                     Apply Leave Now
                 </h2>
-                <div :class="{columns: !open_ui}">
-                    <div  v-if="!open_ui" class="column"></div>
-                    <div :class="{column:!open_ui}">
+                <div class="columns">
+                    <div class="column"></div>
+                    <div class="column">
 
                             <div class="box">
+                              <div v-if="leaveerror" class="notification is-warning">
+                                  {{leaveerror}}
+                              </div>
                                 <ErrorMetamask :error_msg="error_msg" />
                                 <form @submit.prevent="leave"  v-if="steps === 0">
                                     <b-field label="From date">
@@ -103,12 +106,15 @@
                                 </div>
                                 <div v-if="steps === 6">
                                     {{leaveapplymessage}}
+                                    <p>
+                                      <button class="button is-loading is-light"></button>
+                                    </p>
                                 </div>
                             </div>
 
                             <a @click="$router.go(-1)">Back</a>
                     </div>
-                    <div v-if="!open_ui" class="column"></div>
+                    <div class="column"></div>
                 </div>
                 
                 
@@ -119,7 +125,7 @@
 <script>
 import { mapFields } from "vuex-map-fields";
 import ErrorMetamask from "../generic/ErrorMetamask";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "ApplyLeave",
   components: { ErrorMetamask },
@@ -189,8 +195,7 @@ export default {
       leavepplying: "leave.applying",
       leaveerror: "leave.error",
       leaveapplymessage: "leave.message"
-    }),
-    ...mapGetters(["open_ui"])
+    })
   }
 };
 </script>
