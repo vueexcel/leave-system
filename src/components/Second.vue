@@ -57,6 +57,8 @@
                                     <img :src="profile.profileImage" />
                                 </figure>
                                 <i>Seems you have exhausted all your tokens :)</i>
+                                <br/>
+                                <a @click="logout">Logout</a>
                             </div>
                             <div v-if="!isLoggedIn">
                                 Authenticate your account with our hr system and maybe we will reward you with some free tokens :)
