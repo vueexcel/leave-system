@@ -26,6 +26,8 @@
                                 <i>Continue to apply leave</i>
                                 <br/>
                                 <a class="button" @click="applyleave">Apply Leave</a>
+                                <br/>
+                                <a @click="logout">Logout</a>
                             </div>
                             <div v-if="!isLoggedIn">
                                 Authenticate your account with our hr system so you can apply some leaves
@@ -34,7 +36,6 @@
 
                                 <br/>
                                 <div class="is-divider" data-content="OR"></div>
-
                                 <br/>
 
                                 Just try applying leave as a guest!
@@ -61,6 +62,13 @@
                                 Authenticate your account with our hr system and maybe we will reward you with some free tokens :)
                                 <br/><br/>
                                 <a @click="authenticate" class="button">Authenticate</a>
+                                <br/>
+                                <div class="is-divider" data-content="OR"></div>
+                                <br/>
+
+                                Just try applying leave as a guest!
+                                <br/>
+                                <a :class="{button: true, 'is-loading': login_progress}" @click="guest">Guest</a>
                             </div>
 
                             <br/>
@@ -116,11 +124,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["profile", "isLoggedIn", "freefetch", "freeresponse","login_progress"])
+    ...mapGetters([
+      "profile",
+      "isLoggedIn",
+      "freefetch",
+      "freeresponse",
+      "login_progress"
+    ])
   },
   methods: {
+    logout: function() {
+        this.logout();
+    },
     guest: function() {
-        this.guestLogin();
+      this.guestLogin();
     },
     tryout: function() {
       this.$router.push("/buy");
@@ -134,7 +151,8 @@ export default {
     ...mapActions({
       getFreeTokens: "getFreeTokens",
       getTokenBalance: "tokenBalance",
-      guestLogin: "guestLogin"
+      guestLogin: "guestLogin",
+      logout: "logout"
     })
   }
 };
